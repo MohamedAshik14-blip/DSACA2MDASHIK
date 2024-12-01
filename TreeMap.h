@@ -96,5 +96,34 @@ public:
         KeyValue kv(key, value);
         addNode(root, kv);
     }
+int size() {
+        return root ? root->count() : 0;
+    }
 
+    bool removeKey(const K& key) {
+        KeyValue tempKey(key, V());
+        return removeNode(root, tempKey);
+    }
+
+    bool removeNode(BSTNode<KeyValue>*& node, const KeyValue& keyValue) {
+        if (node == nullptr) return false;
+        if (keyValue == node->getItem()) {
+            if (node->getLeft() == nullptr && node->getRight() == nullptr) {
+                delete node;
+                node = nullptr;
+                return true;
+            }
+
+        } else if (keyValue < node->getItem()) {
+            return removeNode(node->getLeft(), keyValue);
+        } else {
+            return removeNode(node->getRight(), keyValue);
+        }
+        return false;
+    }
+
+    ~TreeMap() {
+        clear();
+    }
 };
+
