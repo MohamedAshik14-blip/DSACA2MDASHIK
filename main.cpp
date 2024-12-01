@@ -8,6 +8,7 @@
 #include <cctype>
 #include <algorithm>
 #include "Employee.h"
+#include <regex>
 
 
 class CompareByAge {
@@ -24,8 +25,34 @@ public:
     }
 };
 
+std::vector<std::string> splitAndSanitizeWord(const std::string& word) {
+    std::vector<std::string> words;
+
+    
+    std::regex word_splitter("([A-Z][a-z]*|[a-z]+)");
+    auto words_begin = std::sregex_iterator(word.begin(), word.end(), word_splitter);
+    auto words_end = std::sregex_iterator();
+
+    for (std::sregex_iterator i = words_begin; i != words_end; ++i) {
+        std::string matched_word = i->str();
+       
+        matched_word.erase(std::remove_if(matched_word.begin(), matched_word.end(), [](char c) {
+            return !std::isalpha(c);
+        }), matched_word.end());
+
+       
+        if (!matched_word.empty()) {
+            words.push_back(matched_word);
+        }
+    }
+
+    return words;
+}
+
+
 void processTextFile(const std::string& filename) {
     std::unordered_map<char, std::set<std::string>> wordMap;
+
     std::ifstream file(filename);
 
     if (!file.is_open()) {
@@ -35,13 +62,15 @@ void processTextFile(const std::string& filename) {
 
     std::string word;
     while (file >> word) {
-        word.erase(std::remove_if(word.begin(), word.end(), [](char c) {
-            return !std::isalpha(c);
-        }), word.end());
+  
+        std::vector<std::string> words = splitAndSanitizeWord(word);
 
-        if (!word.empty()) {
-            char firstLetter = std::tolower(word[0]);
-            wordMap[firstLetter].insert(word);
+        for (const auto& sanitized_word : words) {
+            if (!sanitized_word.empty()) {
+               
+                char firstLetter = std::tolower(sanitized_word[0]);
+                wordMap[firstLetter].insert(sanitized_word);  
+            }
         }
     }
 
@@ -66,7 +95,7 @@ void processTextFile(const std::string& filename) {
     if (wordMap.find(choice) != wordMap.end()) {
         std::cout << "Words for letter '" << choice << "':" << std::endl;
         for (const auto& word : wordMap[choice]) {
-            std::cout << word<< std::endl;
+            std::cout << word << std::endl;
         }
     } else {
         std::cout << "No words for letter '" << choice << "'." << std::endl;
