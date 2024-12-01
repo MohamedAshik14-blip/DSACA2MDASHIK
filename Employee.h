@@ -24,6 +24,15 @@ public:
     float getSalary() const { return salary; }
     std::string getDepartment() const { return department; }
 
+bool operator<(const Employee& other) const {
+        return name < other.name;
+    }
+
+
+    void display() const {
+        std::cout << name << ", Age: " << age << ", City: " << city << ", Salary: " << salary << ", Department: " << department << std::endl;
+    }
+
 };
 
 #endif
