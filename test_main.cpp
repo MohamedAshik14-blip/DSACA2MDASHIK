@@ -117,5 +117,78 @@ TEST(SearchTest, SearchByDepartment) {
     EXPECT_TRUE(found);
 }
 
+EST(SearchTest, SearchByCity) {
+    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
+
+    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv";
+
+
+    loadCSVDataFromFile(filename, indexMap);
+
+
+    std::string cityChoice = "New York";
+    bool found = false;
+    for (const auto& entry : indexMap) {
+        for (const auto& emp : entry.second) {
+            if (emp->getCity() == cityChoice) {
+                found = true;
+                break;
+            }
+        }
+    }
+
+    EXPECT_TRUE(found);
+}
+
+
+TEST(SearchTest, SearchByAge) {
+    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
+
+    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv";
+
+
+    loadCSVDataFromFile(filename, indexMap);
+
+
+    int ageChoice = 30;
+    bool found = false;
+    for (const auto& entry : indexMap) {
+        for (const auto& emp : entry.second) {
+            if (emp->getAge() == ageChoice) {
+                found = true;
+                break;
+            }
+        }
+    }
+
+    EXPECT_TRUE(found);
+}
+
+
+TEST(SearchTest, SearchBySalary) {
+    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
+
+    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv";
+
+
+    loadCSVDataFromFile(filename, indexMap);
+
+
+    float salaryChoice = 50000;
+    bool found = false;
+    for (const auto& entry : indexMap) {
+        for (const auto& emp : entry.second) {
+            if (emp->getSalary() == salaryChoice) {
+                found = true;
+                break;
+            }
+        }
+    }
+
+    EXPECT_TRUE(found);
+}
+
+
+
 
 
