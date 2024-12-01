@@ -76,7 +76,60 @@ void processTextFile(const std::string& filename) {
 
 
 
+void loadCSVData(const std::string& filename, std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>>& indexMap) {
+    std::ifstream file(filename);
 
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: " << filename << std::endl;
+        return;
+    }
+
+    std::string line;
+    bool isFirstLine = true;
+    while (std::getline(file, line)) {
+        if (line.empty()) continue;
+
+        std::stringstream ss(line);
+        std::string name, city, department, ageStr, salaryStr;
+        int age;
+        float salary;
+
+        if (isFirstLine) {
+            isFirstLine = false;
+            continue;
+        }
+
+        std::getline(ss, name, ',');
+        std::getline(ss, ageStr, ',');
+        std::getline(ss, city, ',');
+        std::getline(ss, salaryStr, ',');
+        std::getline(ss, department, ',');
+
+        if (name.empty() || ageStr.empty() || city.empty() || salaryStr.empty() || department.empty()) {
+            std::cerr << "Warning: Malformed line, skipping: " << line << std::endl;
+            continue;
+        }
+
+        try {
+            age = std::stoi(ageStr);
+            salary = std::stof(salaryStr);
+        } catch (const std::exception& e) {
+            std::cerr << "Error converting age or salary in line: " << line << " (" << e.what() << ")" << std::endl;
+            continue;
+        }
+
+        std::transform(department.begin(), department.end(), department.begin(), ::tolower);
+
+        auto emp = std::make_shared<Employee>(name, age, city, salary, department);
+        indexMap[department].insert(emp);
+    }
+
+    file.close();
+
+    if (indexMap.empty()) {
+        std::cout << "No employee data found in the CSV file." << std::endl;
+    }
+}
 
 
 
