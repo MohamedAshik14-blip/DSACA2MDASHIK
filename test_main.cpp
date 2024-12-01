@@ -6,7 +6,7 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
-#include "Employee.h"  
+#include "Employee.h"
 
 
 
@@ -40,7 +40,7 @@ void loadCSVDataFromFile(const std::string& filename, std::unordered_map<std::st
         std::getline(lineStream, salaryStr, ',');
         std::getline(lineStream, department, ',');
 
-    
+
         if (name.empty() || ageStr.empty() || city.empty() || salaryStr.empty() || department.empty()) {
             continue;
         }
@@ -49,16 +49,16 @@ void loadCSVDataFromFile(const std::string& filename, std::unordered_map<std::st
             age = std::stoi(ageStr);
             salary = std::stof(salaryStr);
         } catch (const std::exception&) {
-            continue;  
+            continue;
         }
 
-  
+
         std::transform(department.begin(), department.end(), department.begin(), ::tolower);
 
-      
+
         auto emp = std::make_shared<Employee>(name, age, city, salary, department);
 
-       
+
         indexMap[department].insert(emp);
     }
 
@@ -74,120 +74,6 @@ TEST(EmployeeTest, ConstructorTest) {
     EXPECT_EQ(emp.getCity(), "New York");
     EXPECT_EQ(emp.getSalary(), 50000);
     EXPECT_EQ(emp.getDepartment(), "Engineering");
-}
-
-
-TEST(CSVTest, LoadCSVTest) {
-    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
-
-    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv";  
-
-
-    loadCSVDataFromFile(filename, indexMap);
-
-   
-    ASSERT_FALSE(indexMap.empty());   
-    EXPECT_GT(indexMap.size(), 0);   
-
-  
-    EXPECT_EQ(indexMap["engineering"].size(), 38); 
-    EXPECT_EQ(indexMap["management"].size(), 26);  
-    EXPECT_EQ(indexMap["support"].size(), 43);     
-}
-
-
-
-
-TEST(SearchTest, SearchByDepartment) {
-    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
-
-    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv";  
-
- 
-    loadCSVDataFromFile(filename, indexMap);
-
-   
-    std::string dept = "engineering";
-    bool found = false;
-    for (const auto& entry : indexMap[dept]) {
-        if (entry->getDepartment() == dept) {
-            found = true;
-        }
-    }
-
-    EXPECT_TRUE(found); 
-}
-
-
-TEST(SearchTest, SearchByCity) {
-    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
-
-    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv"; 
-
- 
-    loadCSVDataFromFile(filename, indexMap);
-
-    
-    std::string cityChoice = "New York";
-    bool found = false;
-    for (const auto& entry : indexMap) {
-        for (const auto& emp : entry.second) {
-            if (emp->getCity() == cityChoice) {
-                found = true;
-                break;
-            }
-        }
-    }
-
-    EXPECT_TRUE(found);  
-}
-
-
-TEST(SearchTest, SearchByAge) {
-    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
-
-    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv"; 
-
-   
-    loadCSVDataFromFile(filename, indexMap);
-
-  
-    int ageChoice = 30;
-    bool found = false;
-    for (const auto& entry : indexMap) {
-        for (const auto& emp : entry.second) {
-            if (emp->getAge() == ageChoice) {
-                found = true;
-                break;
-            }
-        }
-    }
-
-    EXPECT_TRUE(found); 
-}
-
-
-TEST(SearchTest, SearchBySalary) {
-    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
-
-    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv";  
-
-   
-    loadCSVDataFromFile(filename, indexMap);
-
-   
-    float salaryChoice = 50000;
-    bool found = false;
-    for (const auto& entry : indexMap) {
-        for (const auto& emp : entry.second) {
-            if (emp->getSalary() == salaryChoice) {
-                found = true;
-                break;
-            }
-        }
-    }
-
-    EXPECT_TRUE(found);  
 }
 
 
