@@ -1,0 +1,17 @@
+# ninja log v6
+2	2338	1732977992155566784	googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	4c7deddd663bcd0e
+938	1038	1732977404744884214	DSACA21	4bf6e2131c1ff32f
+1	936	1732977403807986198	CMakeFiles/DSACA21.dir/main.cpp.o	9acdc3b14c714575
+8	973	1732978332138504305	CMakeFiles/runTests.dir/test_main.cpp.o	eb1574b3ed408c7d
+3	1047	1732977992155988701	googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o	4ee8d51db1d3930b
+2338	2387	1732977994491672648	lib/libgtest.a	c5b6a42ad5bc32bd
+2387	2406	1732977994540741101	lib/libgtest_main.a	bb0dc1de61ddf4eb
+973	1073	1732978333103674649	runTests	c9de79d6c46aa7a8
+16	714	1733064283261706226	googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o	4ee8d51db1d3930b
+16	1006	1733064283261909560	CMakeFiles/runTests.dir/test_main.cpp.o	eb1574b3ed408c7d
+15	1955	1733064283261181599	googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	4c7deddd663bcd0e
+1955	2058	1733064285200722335	lib/libgtest.a	c5b6a42ad5bc32bd
+2058	2077	1733064285303564219	lib/libgtest_main.a	bb0dc1de61ddf4eb
+2077	3771	1733064285323100216	runTests	c9de79d6c46aa7a8
+8	836	1733064344617983565	CMakeFiles/runTests.dir/test_main.cpp.o	eb1574b3ed408c7d
+836	884	1733064345445906825	runTests	c9de79d6c46aa7a8
