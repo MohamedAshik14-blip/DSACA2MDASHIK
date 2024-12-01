@@ -131,6 +131,144 @@ void loadCSVData(const std::string& filename, std::unordered_map<std::string, st
     }
 }
 
+void searchData(std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>>& indexMap) {
+    int choice;
+    std::cout << "Search by:\n";
+    std::cout << "1. Department\n";
+    std::cout << "2. City\n";
+    std::cout << "3. Age (Categorized)\n";
+    std::cout << "4. Salary (Categorized)\n";
+    std::cout << "Enter your choice: ";
+    std::cin >> choice;
+
+    if (choice == 1) {
+        std::cout << "Departments available:\n";
+        std::cout << "1. Engineering\n";
+        std::cout << "2. Management\n";
+        std::cout << "3. Support\n";
+        std::cout << "Enter department choice (1-3): ";
+        int deptChoice;
+        std::cin >> deptChoice;
+
+        std::string deptName;
+        switch (deptChoice) {
+            case 1: deptName = "engineering"; break;
+            case 2: deptName = "management"; break;
+            case 3: deptName = "support"; break;
+            default:
+                std::cout << "Invalid choice." << std::endl;
+                return;
+        }
+
+        if (indexMap.find(deptName) != indexMap.end()) {
+            std::cout << "Employees in department '" << deptName << "':" << std::endl;
+            for (const auto& emp : indexMap[deptName]) {
+                std::cout << emp->getName() << ", Age: " << emp->getAge() << ", City: " << emp->getCity() << ", Salary: " << emp->getSalary() << std::endl;
+            }
+        } else {
+            std::cout << "No data for department '" << deptName << "'." << std::endl;
+        }
+    } else if (choice == 2) {
+        std::cout << "Cities available:\n";
+        std::cout << "1. New York\n";
+        std::cout << "2. Boston\n";
+        std::cout << "3. Seattle\n";
+        std::cout << "4. Chicago\n";
+        std::cout << "5. San Francisco\n";
+        std::cout << "6. Austin\n";
+        std::cout << "Enter city choice (1-6): ";
+        int cityChoice;
+        std::cin >> cityChoice;
+
+        std::string cityName;
+        switch (cityChoice) {
+            case 1: cityName = "New York"; break;
+            case 2: cityName = "Boston"; break;
+            case 3: cityName = "Seattle"; break;
+            case 4: cityName = "Chicago"; break;
+            case 5: cityName = "San Francisco"; break;
+            case 6: cityName = "Austin"; break;
+            default:
+                std::cout << "Invalid choice." << std::endl;
+                return;
+        }
+
+        bool found = false;
+        for (const auto& entry : indexMap) {
+            for (const auto& emp : entry.second) {
+                if (emp->getCity() == cityName) {
+                    std::cout << emp->getName() << ", Age: " << emp->getAge() << ", City: " << emp->getCity() << ", Salary: " << emp->getSalary() << ", Department: " << emp->getDepartment() << std::endl;
+                    found = true;
+                }
+            }
+        }
+
+        if (!found) {
+            std::cout << "No employees found in city '" << cityName << "'." << std::endl;
+        }
+    } else if (choice == 3) {
+        int ageChoice;
+        std::cout << "Enter age category:\n";
+        std::cout << "1. 1-18\n";
+        std::cout << "2. 18-25\n";
+        std::cout << "3. 25-35\n";
+        std::cout << "4. 35-45\n";
+        std::cout << "5. 45-55\n";
+        std::cout << "6. 60+\n";
+        std::cin >> ageChoice;
+
+        bool found = false;
+        for (const auto& entry : indexMap) {
+            for (const auto& emp : entry.second) {
+                int age = emp->getAge();
+                if ((ageChoice == 1 && age >= 1 && age <= 18) ||
+                    (ageChoice == 2 && age > 18 && age <= 25) ||
+                    (ageChoice == 3 && age > 25 && age <= 35) ||
+                    (ageChoice == 4 && age > 35 && age <= 45) ||
+                    (ageChoice == 5 && age > 45 && age <= 55) ||
+                    (ageChoice == 6 && age > 60)) {
+                    std::cout << emp->getName() << ", Age: " << age << ", City: " << emp->getCity() << ", Salary: " << emp->getSalary() << ", Department: " << emp->getDepartment() << std::endl;
+                    found = true;
+                }
+            }
+        }
+
+        if (!found) {
+            std::cout << "No employees found in this age category." << std::endl;
+        }
+    } else if (choice == 4) {
+        int salaryChoice;
+        std::cout << "Enter salary category:\n";
+        std::cout << "1. <30k\n";
+        std::cout << "2. 30k-50k\n";
+        std::cout << "3. 50k-70k\n";
+        std::cout << "4. 70k-100k\n";
+        std::cout << "5. >100k\n";
+        std::cin >> salaryChoice;
+
+        bool found = false;
+        for (const auto& entry : indexMap) {
+            for (const auto& emp : entry.second) {
+                float salary = emp->getSalary();
+                if ((salaryChoice == 1 && salary < 30000) ||
+                    (salaryChoice == 2 && salary >= 30000 && salary <= 50000) ||
+                    (salaryChoice == 3 && salary > 50000 && salary <= 70000) ||
+                    (salaryChoice == 4 && salary > 70000 && salary <= 100000) ||
+                    (salaryChoice == 5 && salary > 100000)) {
+                    std::cout << emp->getName() << ", Age: " << emp->getAge() << ", City: " << emp->getCity() << ", Salary: " << salary << ", Department: " << emp->getDepartment() << std::endl;
+                    found = true;
+                }
+            }
+        }
+
+        if (!found) {
+            std::cout << "No employees found in this salary category." << std::endl;
+        }
+    } else {
+        std::cout << "Invalid search type." << std::endl;
+    }
+}
+
 
 
 
