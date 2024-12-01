@@ -76,4 +76,46 @@ TEST(EmployeeTest, ConstructorTest) {
     EXPECT_EQ(emp.getDepartment(), "Engineering");
 }
 
+TEST(CSVTest, LoadCSVTest) {
+    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
+
+    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv";
+
+
+    loadCSVDataFromFile(filename, indexMap);
+
+
+    ASSERT_FALSE(indexMap.empty());
+    EXPECT_GT(indexMap.size(), 0);
+
+
+    EXPECT_EQ(indexMap["engineering"].size(), 38);
+    EXPECT_EQ(indexMap["management"].size(), 26);
+    EXPECT_EQ(indexMap["support"].size(), 43);
+}
+
+
+
+
+TEST(SearchTest, SearchByDepartment) {
+    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
+
+    std::string filename = "/Users/mohamedashiks/CLionProjects/DSACA2/data.csv";
+
+
+    loadCSVDataFromFile(filename, indexMap);
+
+
+    std::string dept = "engineering";
+    bool found = false;
+    for (const auto& entry : indexMap[dept]) {
+        if (entry->getDepartment() == dept) {
+            found = true;
+        }
+    }
+
+    EXPECT_TRUE(found);
+}
+
+
 
