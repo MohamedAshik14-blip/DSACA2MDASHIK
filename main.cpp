@@ -283,31 +283,37 @@ void listAllEmployees(const std::unordered_map<std::string, std::set<std::shared
 
 
 int main() {
-    std::ifstream file("/Users/mohamedashiks/CLionProjects/DSACA2/data.csv");
+    std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>> indexMap;
 
-    if (!file.is_open()) {
-        std::cerr << "Error opening file!" << std::endl;
-        return 1;
-    }
+    int option;
+    std::string filename;
+    while (true) {
+        std::cout << "\nMenu:\n";
+        std::cout << "1. Process a text file and organize words (Stage 2)\n";
+        std::cout << "2. Load CSV data and create an index (Stage 3)\n";
+        std::cout << "3. Search and view indexed data (Stage 4)\n";
+        std::cout << "4. List all employees\n";
+        std::cout << "5. Exit\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> option;
 
-    std::set<std::string> words;
-    std::string line;
-
-    while (std::getline(file, line)) {
-        std::transform(line.begin(), line.end(), line.begin(), ::tolower);  
-        std::stringstream ss(line);
-        std::string word;
-
-        while (ss >> word) {
-            words.insert(word);
+        if (option == 1) {
+            std::cout << "Enter the text file path: ";
+            std::cin >> filename;
+            processTextFile(filename);
+        } else if (option == 2) {
+            std::cout << "Enter the CSV file path: ";
+            std::cin >> filename;
+            loadCSVData(filename, indexMap);
+        } else if (option == 3) {
+            searchData(indexMap);
+        } else if (option == 4) {
+            listAllEmployees(indexMap);
+        } else if (option == 5) {
+            break;
+        } else {
+            std::cout << "Invalid choice. Try again." << std::endl;
         }
-    }
-
-    file.close();
-
-    std::cout << "Processed and organized words (Stage 2):" << std::endl;
-    for (const auto& word : words) {
-        std::cout << word << std::endl;
     }
 
     return 0;
