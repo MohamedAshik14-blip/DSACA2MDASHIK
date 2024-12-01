@@ -270,6 +270,15 @@ void searchData(std::unordered_map<std::string, std::set<std::shared_ptr<Employe
 }
 
 
+void listAllEmployees(const std::unordered_map<std::string, std::set<std::shared_ptr<Employee>>>& indexMap) {
+    std::cout << "All Employees: \n";
+    for (const auto& entry : indexMap) {
+        for (const auto& emp : entry.second) {
+            std::cout << emp->getName() << ", Age: " << emp->getAge() << ", City: " << emp->getCity() << ", Salary: " << emp->getSalary() << ", Department: " << emp->getDepartment() << std::endl;
+        }
+    }
+}
+
 
 
 
