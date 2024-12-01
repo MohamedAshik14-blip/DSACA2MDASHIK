@@ -70,6 +70,31 @@ private:
             addNode(node->getRight(), kv);
         }
     }
+public:
+    TreeMap() : root(nullptr) {}
 
+    void clear() {
+        clearNode(root);
+        root = nullptr;
+    }
+
+    bool containsKey(const K& key) {
+        KeyValue tempKey(key, V());
+        return getNode(root, tempKey) != nullptr;
+    }
+
+    V& get(const K& key) {
+        KeyValue tempKey(key, V());
+        BSTNode<KeyValue>* node = getNode(root, tempKey);
+        if (node == nullptr) {
+            throw std::logic_error("Key not found");
+        }
+        return node->getItem().value;
+    }
+
+    void put(const K& key, const V& value) {
+        KeyValue kv(key, value);
+        addNode(root, kv);
+    }
 
 };
