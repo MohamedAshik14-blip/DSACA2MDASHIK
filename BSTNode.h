@@ -61,4 +61,15 @@ public:
         return false;
     }
 
+ int count() const {
+        int count = 1;
+        if (left != nullptr) count += left->count();
+        if (right != nullptr) count += right->count();
+        return count;
+    }
+
+    ~BSTNode() {
+        delete left;
+        delete right;
+    }
 };
