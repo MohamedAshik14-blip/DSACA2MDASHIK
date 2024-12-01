@@ -17,10 +17,17 @@ public:
     BinaryTree<T>& operator=(const BinaryTree<T>& other);
     void add(const T& item);
     bool remove(const T& item);
-void clear();
+    void clear();
     int count();
     T& get(const T& item);
     T* toArray();
+    void printInOrder();
+    void printInOrder(BSTNode<T>* node);
+    void printPreOrder();
+    void printPreOrder(BSTNode<T>* node);
+    void printPostOrder();
+    void printPostOrder(BSTNode<T>* node);
+    ~BinaryTree();
 
 
 };
@@ -156,4 +163,73 @@ void BinaryTree<T>::clear() {
     deleteSubTree(root);
     root = nullptr;
 }
+
+template <class T>
+void BinaryTree<T>::deleteSubTree(BSTNode<T>* node) {
+    if (node != nullptr) {
+        deleteSubTree(node->getLeft());
+        deleteSubTree(node->getRight());
+        delete node;
+    }
+}
+
+
+template <class T>
+int BinaryTree<T>::count() {
+    return (root == nullptr) ? 0 : root->count();
+}
+
+template <class T>
+void BinaryTree<T>::printInOrder() {
+    printInOrder(root);
+    std::cout << std::endl;
+}
+
+template <class T>
+void BinaryTree<T>::printInOrder(BSTNode<T>* node) {
+    if (node != nullptr) {
+        printInOrder(node->getLeft());
+        std::cout << node->getItem() << " ";
+        printInOrder(node->getRight());
+    }
+}
+
+
+template <class T>
+void BinaryTree<T>::printPreOrder() {
+    printPreOrder(root);
+    std::cout << std::endl;
+}
+
+template <class T>
+void BinaryTree<T>::printPreOrder(BSTNode<T>* node) {
+    if (node != nullptr) {
+        std::cout << node->getItem() << " ";
+        printPreOrder(node->getLeft());
+        printPreOrder(node->getRight());
+    }
+}
+
+
+template <class T>
+void BinaryTree<T>::printPostOrder() {
+    printPostOrder(root);
+    std::cout << std::endl;
+}
+
+template <class T>
+void BinaryTree<T>::printPostOrder(BSTNode<T>* node) {
+    if (node != nullptr) {
+        printPostOrder(node->getLeft());
+        printPostOrder(node->getRight());
+        std::cout << node->getItem() << " ";
+    }
+}
+
+
+template <class T>
+BinaryTree<T>::~BinaryTree() {
+    clear();
+}
+
 
