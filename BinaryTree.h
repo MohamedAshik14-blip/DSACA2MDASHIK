@@ -17,6 +17,10 @@ public:
     BinaryTree<T>& operator=(const BinaryTree<T>& other);
     void add(const T& item);
     bool remove(const T& item);
+void clear();
+    int count();
+    T& get(const T& item);
+    T* toArray();
 
 
 };
@@ -111,3 +115,45 @@ bool BinaryTree<T>::remove(const T& item) {
 
     return true;
 }
+
+
+template <class T>
+T& BinaryTree<T>::get(const T& item) {
+    BSTNode<T>* current = root;
+    while (current != nullptr) {
+        if (current->getItem() == item) {
+            return current->getItem();
+        } else if (item < current->getItem()) {
+            current = current->getLeft();
+        } else {
+            current = current->getRight();
+        }
+    }
+    throw std::logic_error("Item not found");
+}
+
+
+template <class T>
+void BinaryTree<T>::addItemToArray(BSTNode<T>* node, int& pos, T* arr) {
+    if (node != nullptr) {
+        addItemToArray(node->getLeft(), pos, arr);
+        arr[pos++] = node->getItem();
+        addItemToArray(node->getRight(), pos, arr);
+    }
+}
+
+template <class T>
+T* BinaryTree<T>::toArray() {
+    int size = count();
+    T* arr = new T[size];
+    int pos = 0;
+    addItemToArray(root, pos, arr);
+    return arr;
+}
+
+template <class T>
+void BinaryTree<T>::clear() {
+    deleteSubTree(root);
+    root = nullptr;
+}
+
