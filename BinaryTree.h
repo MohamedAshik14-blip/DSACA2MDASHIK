@@ -9,6 +9,7 @@ class BinaryTree {
 private:
     void addItemToArray(BSTNode<T>* node, int& pos, T* arr);
     void deleteSubTree(BSTNode<T>* node);
+    void addKeysToSet(BSTNode<T>* node, std::set<T>& keySet);
 public:
     BSTNode<T>* root;
 
@@ -27,6 +28,8 @@ public:
     void printPreOrder(BSTNode<T>* node);
     void printPostOrder();
     void printPostOrder(BSTNode<T>* node);
+ std::set<T> keySet();
+    T& operator[](const T& key);
     ~BinaryTree();
 
 
@@ -225,7 +228,28 @@ void BinaryTree<T>::printPostOrder(BSTNode<T>* node) {
         std::cout << node->getItem() << " ";
     }
 }
+template <class T>
+std::set<T> BinaryTree<T>::keySet() {
+    std::set<T> keys;
+    addKeysToSet(root, keys);
+    return keys;
+}
 
+
+template <class T>
+void BinaryTree<T>::addKeysToSet(BSTNode<T>* node, std::set<T>& keySet) {
+    if (node != nullptr) {
+        addKeysToSet(node->getLeft(), keySet);
+        keySet.insert(node->getItem());
+        addKeysToSet(node->getRight(), keySet);
+    }
+}
+
+
+template <class T>
+T& BinaryTree<T>::operator[](const T& key) {
+    return get(key);
+}
 
 template <class T>
 BinaryTree<T>::~BinaryTree() {
